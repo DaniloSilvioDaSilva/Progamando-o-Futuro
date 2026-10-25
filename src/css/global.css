@@ -1,0 +1,301 @@
+@font-face {
+  font-family: Altone;
+  src: url(../../public/fonts/Altone_Trial-Regular.ttf);
+  unicode-range: U+0020-0022, U+0024, U+0027-0029, U+002C-0031, U+0033-0034, U+0036-003A, U+003F, U+0041-005B, U+005D, U+005F-10FFFF;
+}
+
+@font-face {
+  font-family: Palmas;
+  src: url(../../public/fonts/Palmas.otf);
+  unicode-range: U+0020-0021, U+0023-0026, U+0028-003B, U+003D, U+003F-10FFFF;
+}
+
+:root {
+  --color-darkest: #083127;
+  --color-dark-green: #0B785E;
+  --color-mid-green: #2C9980;
+  --color-mint: #B9ECD6;
+  --color-mint-light: #CAF7E4;
+  --color-mint-lighter: #C6F7E1;
+  --color-cream: #FAF2CF;
+  --font-title: Palmas, 'Abril Fatface', serif;
+  --font-body: Altone, Outfit, sans-serif;
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 40' preserveAspectRatio='none'%3E%3Cpath d='M0 0H720V18C640 38 560 38 480 22S340 0 240 12S80 -2 0 18Z' fill='%23083127'/%3E%3C/svg%3E");
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(#8FDDB6, var(--color-mint));
+  color: var(--color-darkest);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+body.theme-dark {
+  background: linear-gradient(180deg, #083127 15%, #199778 100%);
+  color: var(--color-mint-light);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 3.2rem);
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+#app {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 28px 18px;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--color-darkest);
+  color: var(--color-mint-light);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 10px 22px;
+  flex-wrap: wrap;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  flex-wrap: wrap;
+  font-size: .9rem;
+}
+
+.site-header nav a {
+  text-decoration: none;
+}
+
+.site-header nav a:hover,
+.site-header nav a.active {
+  text-decoration: underline;
+}
+
+.site-header img {
+  height: 42px;
+}
+
+.site-footer {
+  background: var(--color-darkest);
+  color: var(--color-mint-light);
+  padding: 22px;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  font-size: .85rem;
+  position: relative;
+  margin-top: 34px;
+}
+
+.site-footer a {
+  display: block;
+  margin-top: 6px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.container-narrow {
+  max-width: 400px;
+  margin: auto;
+}
+
+.logo-circle {
+  width: 70px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.row-between {
+  justify-content: space-between;
+}
+
+html {
+  scroll-padding-top: 76px;
+  scroll-behavior: smooth;
+}
+
+.hide,
+.site-header.off nav,
+.site-header.off .menu-toggle {
+  display: none !important;
+}
+
+.site-header::after,
+.site-footer::before,
+.band::before,
+.band::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: var(--wave) repeat-x 0 0/720px 30px;
+  pointer-events: none;
+}
+
+.site-header::after,
+.band::after {
+  bottom: -29px;
+}
+
+.site-footer::before,
+.band::before {
+  top: -29px;
+  transform: scaleY(-1);
+}
+
+.band {
+  position: relative;
+  background: var(--color-darkest);
+  color: var(--color-mint-light);
+  margin: 44px calc(50% - 50vw);
+  padding: 32px calc(50vw - 50%);
+}
+
+.menu-toggle {
+  display: none;
+  margin-left: auto;
+  font-size: 1.7rem;
+  color: var(--color-mint-light);
+}
+
+@media (max-width: 760px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .site-header {
+    gap: 12px;
+  }
+
+  .site-header img {
+    height: 36px;
+  }
+
+  .site-header nav {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    gap: 12px;
+    padding: 6px 0;
+  }
+
+  .site-header nav.open {
+    display: flex;
+  }
+
+  #app {
+    padding: 20px 14px;
+  }
+
+  .site-footer {
+    gap: 24px;
+  }
+
+  .modal-box {
+    padding: 44px 14px 18px;
+    border-radius: 14px;
+  }
+
+  .overlay {
+    padding: 8px;
+    align-items: flex-start;
+  }
+
+  .carousel .course-card {
+    flex-basis: 78%;
+  }
+
+  .search-bar button {
+    padding: 10px 26px;
+    width: 100%;
+  }
+
+  .quiz-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    gap: 16px;
+  }
+
+  .course-card img,
+  .course-card .placeholder {
+    height: 130px;
+  }
+}
+
+@media (max-width: 420px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .emoji-scale button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+  }
+
+  .emoji-scale {
+    gap: 6px;
+  }
+
+  .btn,
+  .btn-outline {
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header::after,
+  .site-footer::before,
+  .band::before,
+  .band::after {
+    height: 20px;
+    background-size: 420px 20px;
+  }
+
+  .site-header::after,
+  .band::after {
+    bottom: -19px;
+  }
+
+  .site-footer::before,
+  .band::before {
+    top: -19px;
+  }
+}
