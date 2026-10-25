@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#083127">
+  <meta
+    name="description"
+    content="LudoVia: cursos e oportunidades de educação feitos pela
+             periferia para a periferia.">
+  <title>LudoVia</title>
+  <link rel="icon" href="public/icons/logo-menta.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Outfit:wght@400;700&display=swap">
+
+  <link rel="stylesheet" href="src/css/reset.css">
+  <link rel="stylesheet" href="src/css/global.css">
+  <link rel="stylesheet" href="src/css/components.css">
+</head>
+
+<body>
+  <header class="site-header" id="site-header">
+    <a href="#/inicio" aria-label="LudoVia: ir para o início">
+      <img src="public/icons/logo-escuro.png" alt="">
+    </a>
+    <a href="#/">
+      <img src="public/icons/wordmark.png" alt="LudoVia">
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      data-action="toggleMenu"
+      aria-label="Abrir menu">☰</button>
+
+    <nav id="site-nav" aria-label="Menu principal">
+      <a href="#/inicio" data-action="goToAbout">Sobre nós</a>
+      <a href="#/inicio">Início</a>
+      <a href="#/meus-cursos">Meus cursos</a>
+      <a href="#/perfil" data-account="student">Meu perfil</a>
+      <a href="#/novo-curso" data-account="company" class="hide">
+        Adicionar curso
+      </a>
+      <a href="#/config">Configurações</a>
+    </nav>
+  </header>
+
+  <main id="app">
+    <section class="screen" data-screen="welcome" hidden>
+      <section class="container-narrow text-center">
+        <img class="logo-circle" src="public/icons/logo-menta.png" alt="">
+        <h1>Seu futuro começa aqui e agora!</h1>
+
+        <div class="row row-center">
+          <button
+            class="btn-small"
+            data-action="chooseAccountType"
+            data-type="estudante"
+            data-class="btn=studentSelected;btn-outline=companySelected">
+            Conta estudante
+          </button>
+          <button
+            class="btn-small"
+            data-action="chooseAccountType"
+            data-type="empresa"
+            data-class="btn=companySelected;btn-outline=studentSelected">
+            Conta empresa
+          </button>
+        </div>
+
+        <label>Endereço de e-mail
+          <input
+            name="email"
+            type="email"
+            placeholder="nome@dominio.com"
+            data-value="email">
+        </label>
+        <p class="error-text" data-error></p>
+        <button class="btn" data-action="submitEmail">Avançar</button>
+
+        <p>ou</p>
+        <a
+          class="external btn-outline"
+          target="_blank"
+          rel="noopener"
+          data-attrs="href=siepeUrl">Inscrever-se com SIEPE</a>
+        <a
+          class="external btn-outline"
+          target="_blank"
+          rel="noopener"
+          data-attrs="href=googleUrl">Inscrever-se com Google</a>
+
+        <p class="muted-text">Já tem uma conta?</p>
+        <button class="link-button" data-action="login">Entrar</button>
+      </section>
+    </section>
+
+    <section class="screen" data-screen="signup" hidden>
+      <section class="container-narrow">
+        <div class="progress"><i data-style="width=progress"></i></div>
+        <a class="link-button" data-attrs="href=backHref" data-text="stepLabel"></a>
+
+        <div data-if="isPasswordStep">
+          <h2>Crie uma senha</h2>
+          <label>Senha
+            <input name="password" type="password" autocomplete="new-password">
+          </label>
+          <button class="link-button" data-action="togglePassword">
+            Mostrar/ocultar senha
+          </button>
+          <p class="rules-title"><b>A senha deve ter pelo menos</b></p>
+          <div data-list="rules" data-template="tpl-password-rule"></div>
+          <button class="btn" data-action="goToProfileStep" data-disabled="passwordNextDisabled">
+            Avançar
+          </button>
+        </div>
+
+        <div data-if="isStudentStep">
+          <h2>Fale de você</h2>
+          <label>Qual seu nome?
+            <input name="name" data-value="name">
+          </label>
+
+          <label>Qual seu gênero?</label>
+          <div data-list="genders" data-template="tpl-gender"></div>
+
+          <label>Data de nascimento</label>
+          <div class="row">
+            <input name="birthDay" placeholder="dd" maxlength="2" class="w-70">
+            <select name="birthMonth" class="w-130"
+                    data-list="months" data-template="tpl-option"></select>
+            <input name="birthYear" placeholder="aaaa" maxlength="4" class="w-90">
+          </div>
+
+          <p class="error-text" data-error></p>
+          <button class="btn" data-action="submitProfile">Avançar</button>
+        </div>
+
+        <div data-if="isCompanyStep">
+          <h2>Sobre a empresa</h2>
+          <label>Nome da empresa ou instituição
+            <input name="name" data-value="name">
+          </label>
+          <p class="error-text" data-error></p>
+          <button class="btn" data-action="submitProfile">Avançar</button>
+        </div>
+
+        <div data-if="isTermsStep">
+          <h2>Termos e condições</h2>
+          <div data-list="terms" data-template="tpl-term"></div>
+          <p>
+            Ao clicar no botão Inscrever-se abaixo, você confirma que leu sobre
+            como tratamos seus dados pessoais na nossa
+            <b>Política de privacidade</b>.
+          </p>
+          <button class="btn" data-action="finishSignup" data-disabled="finishDisabled">
+            Inscrever-se
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <section class="screen" data-screen="onboarding" hidden>
+      <section class="container-narrow">
+        <div data-if="isQuizStep">
+          <div data-list="quizQuestions" data-template="tpl-quiz-question"></div>
+          <button class="btn" data-action="nextQuizStep">Próximo</button>
+        </div>
+        <div data-if="isScaleStep">
+          <div data-list="scaleQuestions" data-template="tpl-scale-question"></div>
+          <button class="btn" data-action="nextQuizStep">Concluir</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="screen" data-screen="home" hidden>
+      <section id="sobre" class="hero">
+        <div>
+          <small><b>Educação é Poder</b></small>
+          <h1>Quem Somos?</h1>
+          <p>
+            A LudoVia é feita pela periferia para a periferia. Nosso objetivo é
+            ampliar o acesso a oportunidades de educação e mostrar novos
+            caminhos para jovens que muitas vezes são deixados de lado.
+          </p>
+          <a class="btn btn-small" href="#/inicio" data-action="goToCourses">
+            Encontre suas vias!
+          </a>
+        </div>
+      </section>
+
+      <div class="band" id="vias">
+        <section class="hero">
+          <div>
+            <h1>Encontre suas Vias!</h1>
+            <p>
+              Explore cursos, descubra novos interesses e encontre
+              oportunidades para chegar onde quiser.
+            </p>
+          </div>
+          <div class="quiz-card">
+            <h2>Qual será seu próximo sonho?</h2>
+            <p class="spaced-text">
+              Ainda em dúvida do que escolher? Responda ao questionário e
+              descubra quais cursos combinam com você!
+            </p>
+            <a class="btn-outline" href="#/onboarding" data-action="startQuiz">
+              Começar o questionário
+            </a>
+          </div>
+        </section>
+
+        <div class="search-bar">
+          <input name="search" placeholder="Pesquisar...">
+          <select name="filter">
+            <option value="">Filtrar por...</option>
+            <option>Presencial</option>
+            <option>Híbrido</option>
+            <option>Online</option>
+          </select>
+          <button data-action="search">Buscar</button>
+        </div>
+      </div>
+
+      <div class="row row-between">
+        <h2>Algumas das vias disponíveis...</h2>
+        <span>
+          <button class="chip" data-action="scrollCarousel" data-direction="-1">
+            ‹
+          </button>
+          <button class="chip" data-action="scrollCarousel" data-direction="1">
+            ›
+          </button>
+        </span>
+      </div>
+      <div
+        class="carousel"
+        id="carousel"
+        data-list="courses"
+        data-template="tpl-course-card"></div>
+    </section>
+
+    <section class="screen" data-screen="my-courses" hidden>
+      <p class="subtitle" data-text="greeting"></p>
+      <div class="row row-between">
+        <h1 class="title-cream">Meus Cursos</h1>
+        <a
+          class="btn-outline btn-small"
+          data-attrs="href=topHref"
+          data-text="topLabel"></a>
+      </div>
+      <div
+        class="row tabs"
+        data-list="tabs"
+        data-template="tpl-tab-button"></div>
+
+      <div data-list="ownedCourses" data-template="tpl-row-owned"></div>
+      <div data-list="savedCourses" data-template="tpl-row-saved"></div>
+      <div data-list="enrolledCourses" data-template="tpl-row-enrolled"></div>
+      <p data-if="isEmpty">Nada por aqui ainda.</p>
+    </section>
+
+    <section class="screen" data-screen="course-form" hidden>
+      <section class="container-narrow form-wide">
+        <h1 class="text-center title-cream" data-text="heading"></h1>
+        <div class="panel panel-left">
+          <label>Imagem do curso</label>
+          <div class="row">
+            <div
+              id="course-preview"
+              class="placeholder preview-box"
+              data-style="background=previewBackground"></div>
+            <label class="btn-outline btn-small file-button">
+              Escolher imagem
+              <input type="file" accept="image/*" data-image="course" hidden>
+            </label>
+          </div>
+
+          <label>Título
+            <input
+              name="title"
+              placeholder="Ex.: Curso de Finanças"
+              data-value="title">
+          </label>
+
+          <label>Como é o curso</label>
+          <div
+            class="row"
+            id="course-modes"
+            data-list="modes"
+            data-template="tpl-mode-button"></div>
+
+          <label>Tag do curso
+            <input
+              name="tag"
+              placeholder="Ex.: ENEM e carreira"
+              data-value="tag">
+          </label>
+          <label>Data da primeira aula
+            <input name="date" type="date" data-value="date">
+          </label>
+          <label>Horário
+            <input name="time" placeholder="Ex.: 14:30-16:30" data-value="time">
+          </label>
+          <label>Duração
+            <input
+              name="duration"
+              placeholder="Ex.: 8 semanas"
+              data-value="duration">
+          </label>
+          <label>Frequência
+            <input
+              name="frequency"
+              placeholder="Ex.: 2x por semana"
+              data-value="frequency">
+          </label>
+          <label>Valor
+            <input name="price" placeholder="Ex.: Grátis" data-value="price">
+          </label>
+          <label>Idade
+            <input name="minAge" placeholder="Ex.: 14+" data-value="minAge">
+          </label>
+          <label>Local ou link
+            <input
+              name="location"
+              placeholder="Ex.: Sala 4, Rua Exemplo"
+              data-value="location">
+          </label>
+          <label>Vagas
+            <input name="seats" type="number" min="1" data-value="seats">
+          </label>
+          <label>Sobre o curso
+            <textarea name="about" rows="3" data-value="about"></textarea>
+          </label>
+          <label>Para quem é
+            <input name="audience" data-value="audience">
+          </label>
+          <label>O que as pessoas vão aprender (separe por vírgula)
+            <input name="learning" data-value="learning">
+          </label>
+          <label>Ferramentas (opcional, separe por vírgula)
+            <input name="tools" data-value="tools">
+          </label>
+
+          <p class="error-text" data-error></p>
+          <div class="row">
+            <button
+              class="btn btn-small"
+              data-action="publishCourse"
+              data-text="submitLabel"></button>
+            <button class="btn-outline btn-small" data-action="clearForm">
+              Limpar
+            </button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="screen" data-screen="profile" hidden>
+      <div class="profile-layout">
+        <aside>
+          <div class="panel">
+            <img class="avatar" data-if="hasPhoto" data-attrs="src=photoUrl" alt="">
+            <div class="placeholder avatar" data-unless="hasPhoto"></div>
+            <label class="btn-outline btn-small file-button">
+              Trocar foto
+              <input type="file" accept="image/*" data-image="profile" hidden>
+            </label>
+            <h2 data-text="name"></h2>
+            <p data-text="ageLabel"></p>
+            <small data-text="neighborhoodLabel"></small><br>
+            <button class="btn btn-small" data-action="editProfile">
+              Editar Perfil
+            </button>
+          </div>
+
+          <h2 class="section-gap">Habilidades</h2>
+          <a class="btn-outline btn-small" href="#/habilidades">
+            Ver habilidades
+          </a>
+          <h2 class="section-gap">Boletim</h2>
+          <a class="btn-outline btn-small" href="#/boletim">Abrir Boletim</a>
+        </aside>
+
+        <section>
+          <h2>Meu Objetivo</h2>
+          <div class="list-item" data-text="goal"></div>
+
+          <h2 class="section-gap">Interesses</h2>
+          <p class="subtitle">
+            O que te chama atenção. Usamos isso para sugerir vias.
+          </p>
+          <div class="row" data-list="interests" data-template="tpl-interest">
+          </div>
+          <div class="row dark-form">
+            <select
+              name="interest"
+              class="w-260"
+              data-list="areas"
+              data-template="tpl-area-option"></select>
+            <button class="btn-outline btn-small" data-action="addInterest">
+              Adicionar
+            </button>
+          </div>
+
+          <h2 class="section-gap">Cursos que já fiz</h2>
+          <div data-list="pastCourses" data-template="tpl-past-course"></div>
+          <div class="row dark-form">
+            <input name="pastName" placeholder="Nome do curso" class="grow-2">
+            <input name="pastPlace" placeholder="Onde fez" class="grow-2">
+            <input name="pastYear" placeholder="Ano" class="grow-1">
+            <button class="btn-outline btn-small" data-action="addPastCourse">
+              Adicionar
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="skills" hidden>
+      <div class="panel panel-left">
+        <a href="#/perfil">← Voltar ao perfil</a>
+        <h1 data-text="heading"></h1>
+        <div
+          class="card-grid"
+          data-list="skills"
+          data-template="tpl-skill-card"></div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="report-card" hidden>
+      <div class="panel panel-left">
+        <a href="#/perfil">← Voltar ao perfil</a>
+        <h1>Meu Boletim</h1>
+        <p class="subtitle" data-text="subtitle"></p>
+
+        <div class="grade-card row grade-gap">
+          <a
+            class="external chip"
+            target="_blank"
+            rel="noopener"
+            data-attrs="href=siepeUrl">Enviado pelo SIEPE</a>
+          <span>
+            Estas médias vêm da sua escola pelo SIEPE e não podem ser editadas
+            aqui.
+          </span>
+        </div>
+
+        <div class="grade-card">
+          <b data-text="average"></b>
+          Média geral de todas as disciplinas, até agora
+        </div>
+
+        <div
+          class="card-grid"
+          data-list="grades"
+          data-template="tpl-grade-card"></div>
+
+        <p class="report-note">
+          Para ver notas por bimestre, faltas e outros detalhes, consulte o
+          boletim completo no
+          <a
+            class="external"
+            target="_blank"
+            rel="noopener"
+            data-attrs="href=siepeUrl">SIEPE ↗</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="settings" hidden>
+      <h1 class="text-center title-cream">Configurações</h1>
+      <section class="container-narrow">
+        <h3 class="section-gap">Minha conta</h3>
+        <div
+          class="menu-list"
+          data-list="accountItems"
+          data-template="tpl-setting-item"></div>
+
+        <h3>Aparência</h3>
+        <div class="menu-list">
+          <button data-action="toggleFontSize">
+            <b>Fonte e Contraste</b><br>
+            <small>Tamanho do texto (toque para alternar)</small>
+          </button>
+        </div>
+
+        <button class="btn-outline" data-action="logout">Sair da conta</button>
+      </section>
+    </section>
+  </main>
+
+  <div id="modal" class="overlay" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button class="modal-close" data-action="close" aria-label="Fechar">
+        ×
+      </button>
+
+      <div class="dialog" data-dialog="detail" hidden>
+        <div class="course-detail">
+          <div class="course-image">
+            <img data-if="hasImage" data-attrs="src=imageUrl" alt="">
+            <div class="placeholder" data-unless="hasImage"></div>
+            <span class="pill" data-text="tag"></span>
+          </div>
+          <div>
+            <h2 class="course-title">
+              <span data-text="title"></span><br>
+              <span data-text="organization"></span>
+            </h2>
+            <p class="course-meta" data-text="meta"></p>
+            <p class="course-text" data-text="about"></p>
+            <p class="course-text">
+              <b>Para quem é:</b> <span data-text="audience"></span>
+            </p>
+
+            <span class="blob">O que você vai aprender?</span>
+            <ul
+              class="learn-list"
+              data-list="learning"
+              data-template="tpl-learning-item"></ul>
+
+            <div class="tools-row">
+              <b>Ferramentas</b>
+              <div class="row" data-list="tools" data-template="tpl-chip"></div>
+            </div>
+
+            <div class="course-footer row">
+              <span
+                class="list-contents"
+                data-list="stats"
+                data-template="tpl-stat-chip"></span>
+              <button
+                class="btn-dark"
+                data-if="canEnroll"
+                data-action="startEnrollment"
+                data-attrs="data-course-id=id">Quero me inscrever →</button>
+              <button
+                class="btn-outline btn-small"
+                data-if="canEnroll"
+                data-action="toggleSaved"
+                data-attrs="data-course-id=id"
+                data-text="saveLabel"></button>
+              <small data-text="seatsLabel"></small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog" data-dialog="enroll" hidden>
+        <h2>Inscrição</h2>
+        <small data-text="courseTitle"></small>
+        <div
+          class="row enroll-steps"
+          data-list="steps"
+          data-template="tpl-enroll-step"></div>
+
+        <div data-if="isPersonalStep">
+          <label>Nome completo
+            <input name="fullName" data-value="name">
+          </label>
+          <label>E-mail
+            <input name="email" type="email" data-value="email">
+          </label>
+          <label>WhatsApp
+            <input name="whatsapp" placeholder="(81) 99999-0000">
+          </label>
+          <p class="error-text" data-error></p>
+          <button class="btn" data-action="nextEnrollmentStep">
+            Confirmar e continuar
+          </button>
+        </div>
+
+        <div data-if="isGuardianStep">
+          <label>Nome do responsável<input name="guardianName"></label>
+          <label>E-mail do responsável
+            <input name="guardianEmail" type="email">
+          </label>
+          <label>WhatsApp do responsável<input name="guardianWhatsapp"></label>
+          <label class="plain-label">
+            <input type="checkbox" name="guardianConsent">
+            Sou responsável legal e autorizo a participação no curso.
+          </label>
+          <p class="error-text" data-error></p>
+          <button class="btn" data-action="nextEnrollmentStep">
+            Aceitar e continuar
+          </button>
+        </div>
+
+        <div data-if="isConfirmStep">
+          <h3>Inscrição confirmada</h3>
+          <div class="info-field"><small>Curso</small><span data-text="courseTitle"></span></div>
+          <div class="info-field"><small>Primeira aula</small><span data-text="startDate"></span></div>
+          <div class="info-field"><small>Horário</small><span data-text="time"></span></div>
+          <div class="info-field"><small>Local</small><span data-text="location"></span></div>
+
+          <p><b>Lembretes</b></p>
+          <div data-list="reminders" data-template="tpl-reminder"></div>
+
+          <div class="row row-top-gap">
+            <a
+              class="external btn btn-small"
+              target="_blank"
+              rel="noopener"
+              data-attrs="href=calendarUrl">Adicionar ao Google Agenda</a>
+            <button class="btn-outline btn-small" data-action="finishEnrollment">
+              Concluir
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog" data-dialog="location" hidden>
+        <h2 data-text="courseTitle"></h2>
+        <small data-text="schedule"></small>
+        <div class="info-field">
+          <small>Data da primeira aula</small><span data-text="startDate"></span>
+        </div>
+        <div class="info-field">
+          <small>Horário</small><span data-text="time"></span>
+        </div>
+        <div class="info-field">
+          <small>Local</small><span data-text="location"></span>
+        </div>
+        <div class="row">
+          <a
+            class="external btn btn-small"
+            target="_blank"
+            rel="noopener"
+            data-attrs="href=mapsUrl">Abrir no mapa</a>
+          <a
+            class="external btn-outline btn-small"
+            target="_blank"
+            rel="noopener"
+            data-attrs="href=calendarUrl">Adicionar à agenda</a>
+        </div>
+      </div>
+
+      <div class="dialog" data-dialog="cancel" hidden>
+        <h2>Cancelar inscrição?</h2>
+        <p>
+          Você vai perder a vaga em "<span data-text="courseTitle"></span>". O
+          curso volta para as vias e você pode se inscrever de novo se houver
+          vaga.
+        </p>
+        <div class="row row-gap">
+          <button class="btn btn-small" data-action="close">
+            Manter inscrição
+          </button>
+          <button
+            class="btn-outline btn-small"
+            data-action="cancelEnrollment"
+            data-attrs="data-course-id=id">Cancelar inscrição</button>
+        </div>
+        <label>Quer contar o motivo? (opcional)
+          <select data-list="reasons" data-template="tpl-area-option"></select>
+        </label>
+      </div>
+
+      <div class="dialog" data-dialog="remove-course" hidden>
+        <h2>Remover curso?</h2>
+        <p>
+          "<span data-text="title"></span>" deixa de aparecer para os estudantes
+          e as inscrições nele serão canceladas.
+        </p>
+        <div class="row row-top-gap">
+          <button class="btn btn-small" data-action="close">Manter curso</button>
+          <button
+            class="btn-outline btn-small"
+            data-action="removeCourse"
+            data-attrs="data-course-id=id">Remover curso</button>
+        </div>
+      </div>
+
+      <div class="dialog" data-dialog="edit-profile" hidden>
+        <h2>Editar Perfil</h2>
+        <label>Nome<input name="profileName" data-value="name"></label>
+        <label>Idade<input name="profileAge" data-value="age"></label>
+        <label>Bairro
+          <input name="profileNeighborhood" data-value="neighborhood">
+        </label>
+        <label>Meu objetivo
+          <textarea name="profileGoal" rows="3" data-value="goal"></textarea>
+        </label>
+        <button class="btn btn-small" data-action="saveProfile">Salvar</button>
+      </div>
+
+      <div class="dialog" data-dialog="setting-account" hidden>
+        <h2>Dados da conta</h2>
+        <p>E-mail: <span data-text="email"></span></p>
+        <p>Nome: <span data-text="name"></span></p>
+      </div>
+
+      <div class="dialog" data-dialog="setting-notifications" hidden>
+        <h2>Notificações</h2>
+        <div data-list="options" data-template="tpl-notification"></div>
+      </div>
+
+      <div class="dialog" data-dialog="setting-privacy" hidden>
+        <h2>Privacidade</h2>
+        <p>Seus dados ficam apenas neste navegador e não são compartilhados.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div>
+      <b>Empresa</b>
+      <a href="#/inicio" data-action="goToAbout">Sobre nós</a>
+      <a href="#/config">Privacidade</a>
+    </div>
+    <div>
+      <b>Ajuda</b>
+      <a href="#/config">FAQ</a>
+      <a href="#/config">Feedback</a>
+    </div>
+    <div>
+      <b>Contatos</b>
+      <a href="https://instagram.com" target="_blank" rel="noopener">
+        Instagram
+      </a>
+      <a href="https://facebook.com" target="_blank" rel="noopener">
+        Facebook
+      </a>
+      <a href="https://wa.me" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="text-center">
+      O LudoVia precisa do JavaScript ativado para funcionar.
+    </p>
+  </noscript>
+
+  <template id="tpl-password-rule">
+    <div class="password-rule" data-text="text"></div>
+  </template>
+
+  <template id="tpl-gender">
+    <label class="inline-option">
+      <input type="radio" name="gender" data-attrs="value=value">
+      <span data-text="value"></span>
+    </label>
+  </template>
+
+  <template id="tpl-option">
+    <option data-attrs="value=value" data-text="label"></option>
+  </template>
+
+  <template id="tpl-term">
+    <div
+      class="term-card"
+      data-action="toggleTerm"
+      data-attrs="data-term=index"
+      data-text="text"></div>
+  </template>
+
+  <template id="tpl-quiz-question">
+    <h3 data-text="question"></h3>
+    <div
+      class="quiz-grid"
+      data-list="options"
+      data-template="tpl-quiz-option"></div>
+  </template>
+
+  <template id="tpl-quiz-option">
+    <button
+      data-action="answerQuiz"
+      data-attrs="data-question=questionIndex;data-option=optionIndex"
+      data-class="active=active"
+      data-text="text"></button>
+  </template>
+
+  <template id="tpl-scale-question">
+    <h3 data-text="question"></h3>
+    <div class="emoji-scale">
+      <span>Discordo</span>
+      <span
+        class="list-contents"
+        data-list="faces"
+        data-template="tpl-scale-face"></span>
+      <span>Concordo</span>
+    </div>
+  </template>
+
+  <template id="tpl-scale-face">
+    <button
+      data-action="answerScale"
+      data-attrs="data-question=questionIndex;data-value=value;aria-label=label"
+      data-style="--glow=glow"
+      data-class="active=active"
+      data-text="face"></button>
+  </template>
+
+  <template id="tpl-course-card">
+    <article class="course-card">
+      <img data-if="hasImage" data-attrs="src=imageUrl" alt="">
+      <div class="placeholder" data-unless="hasImage"></div>
+      <div>
+        <span class="tag" data-text="tag"></span>
+        <h3>
+          <span data-text="title"></span>
+          <span data-text="organization"></span>
+        </h3>
+        <small data-text="summary"></small>
+        <a class="btn btn-small" data-attrs="href=detailHref">Saiba mais →</a>
+      </div>
+    </article>
+  </template>
+
+  <template id="tpl-tab-button">
+    <button
+      class="btn-small"
+      data-action="switchTab"
+      data-attrs="data-tab=tab"
+      data-class="btn=active;btn-outline=inactive"
+      data-text="label"></button>
+  </template>
+
+  <template id="tpl-row-owned">
+    <article class="panel row course-row">
+      <img
+        class="course-thumb"
+        data-if="hasImage"
+        data-attrs="src=imageUrl"
+        alt="">
+      <div class="placeholder course-thumb" data-unless="hasImage"></div>
+      <div>
+        <span class="tag" data-text="tag"></span>
+        <h3>
+          <span data-text="title"></span>
+          <span data-text="organization"></span>
+        </h3>
+        <p data-text="schedule"></p>
+        <div class="row">
+          <a class="btn btn-small" data-attrs="href=detailHref">Saiba mais →</a>
+          <a class="btn-outline btn-small" data-attrs="href=editHref">
+            Editar curso
+          </a>
+          <button
+            class="link-button"
+            data-action="confirmRemoveCourse"
+            data-attrs="data-course-id=id">Remover curso</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <template id="tpl-row-saved">
+    <article class="panel row course-row">
+      <img
+        class="course-thumb"
+        data-if="hasImage"
+        data-attrs="src=imageUrl"
+        alt="">
+      <div class="placeholder course-thumb" data-unless="hasImage"></div>
+      <div>
+        <span class="tag" data-text="tag"></span>
+        <h3>
+          <span data-text="title"></span>
+          <span data-text="organization"></span>
+        </h3>
+        <p data-text="schedule"></p>
+        <div class="row">
+          <a class="btn btn-small" data-attrs="href=detailHref">Saiba mais →</a>
+          <button
+            class="link-button"
+            data-action="unsaveCourse"
+            data-attrs="data-course-id=id">Remover dos salvos</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <template id="tpl-row-enrolled">
+    <article class="panel row course-row">
+      <img
+        class="course-thumb"
+        data-if="hasImage"
+        data-attrs="src=imageUrl"
+        alt="">
+      <div class="placeholder course-thumb" data-unless="hasImage"></div>
+      <div>
+        <span class="tag" data-text="tag"></span>
+        <h3>
+          <span data-text="title"></span>
+          <span data-text="organization"></span>
+        </h3>
+        <p data-text="schedule"></p>
+        <span class="tag">Inscrição confirmada</span>
+        <div class="row">
+          <button
+            class="btn btn-small"
+            data-action="showLocation"
+            data-attrs="data-course-id=id">Ver local e data</button>
+          <button
+            class="link-button"
+            data-action="confirmCancel"
+            data-attrs="data-course-id=id">Cancelar inscrição</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <template id="tpl-mode-button">
+    <button
+      class="btn-small"
+      data-action="chooseCourseMode"
+      data-attrs="data-mode=mode"
+      data-class="btn=selected;btn-outline=unselected"
+      data-text="mode"></button>
+  </template>
+
+  <template id="tpl-interest">
+    <span class="chip">
+      <span data-text="name"></span>
+      <button
+        data-action="removeInterest"
+        data-attrs="data-index=index"
+        aria-label="Remover">×</button>
+    </span>
+  </template>
+
+  <template id="tpl-area-option">
+    <option data-text="name"></option>
+  </template>
+
+  <template id="tpl-past-course">
+    <div class="list-item">
+      <span>
+        <b data-text="name"></b><br>
+        <small data-text="detail"></small>
+      </span>
+      <button
+        data-action="removePastCourse"
+        data-attrs="data-index=index"
+        aria-label="Remover">×</button>
+    </div>
+  </template>
+
+  <template id="tpl-skill-card">
+    <div class="skill-card">
+      <h3 data-text="title"></h3>
+      <p class="skill-text" data-text="text"></p>
+      <small data-text="levelLabel"></small>
+      <div class="meter"><i data-style="width=width"></i></div>
+    </div>
+  </template>
+
+  <template id="tpl-grade-card">
+    <div class="grade-card">
+      <small data-text="subject"></small><br>
+      <b data-text="value"></b>
+      <div class="meter"><i data-style="width=width"></i></div>
+    </div>
+  </template>
+
+  <template id="tpl-setting-item">
+    <button data-action="showSetting" data-attrs="data-index=index">
+      <b data-text="title"></b><br>
+      <small data-text="description"></small>
+    </button>
+  </template>
+
+  <template id="tpl-learning-item">
+    <li><span data-text="icon"></span><b data-text="title"></b></li>
+  </template>
+
+  <template id="tpl-chip">
+    <span class="chip" data-text="text"></span>
+  </template>
+
+  <template id="tpl-stat-chip">
+    <span class="stat-chip">
+      <b data-text="value"></b><small data-text="label"></small>
+    </span>
+  </template>
+
+  <template id="tpl-enroll-step">
+    <small
+      data-class="step-current=current;step-muted=muted"
+      data-text="label"></small>
+  </template>
+
+  <template id="tpl-reminder">
+    <label class="inline-option">
+      <input type="checkbox"><span data-text="label"></span>
+    </label>
+  </template>
+
+  <template id="tpl-notification">
+    <label class="plain-label">
+      <input type="checkbox" checked><span data-text="label"></span>
+    </label>
+  </template>
+
+  <script src="src/utils/dom.js"></script>
+  <script src="src/utils/template.js"></script>
+  <script src="src/utils/image.js"></script>
+  <script src="src/js/config.js"></script>
+  <script src="src/js/state.js"></script>
+  <script src="src/components/ui.js"></script>
+  <script src="src/components/course-modals.js"></script>
+  <script src="src/js/views.js"></script>
+  <script src="src/js/router.js"></script>
+  <script src="src/js/actions.js"></script>
+  <script src="src/js/main.js"></script>
+</body>
+
+</html>
